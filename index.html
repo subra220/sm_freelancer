@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SM Studio — Subramani</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:         #e5e9f0;
+      --card-bg:    #e0e5ec;
+      --text:       #2c3e50;
+      --text-light: #5c7a99;
+      --primary:    #10b981;
+      --shadow-dark:  rgba(163, 177, 198, 0.6);
+      --shadow-light: rgba(255, 255, 255, 0.9);
+      --radius:     20px;
+      --tag-bg-live:      rgba(16,185,129,0.2);
+      --tag-text-live:    #065f46;
+      --tag-bg-progress:  rgba(245,158,11,0.2);
+      --tag-text-progress: #92400e;
+      --tag-bg-fav:       rgba(139,92,246,0.2);
+      --tag-text-fav:     #4c1d95;
+    }
+
+    /* ============= ANIMATIONS ============= */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes pageLoad {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+      min-height: 100vh;
+      animation: pageLoad 0.6s ease-out;
+    }
+
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: var(--card-bg);
+      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+      z-index: 1000;
+      padding: 1rem 5%;
+    }
+
+    nav {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 4vw, 2rem);
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0.5rem;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      width: 32px;
+      height: 4px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0; right: -100%;
+      width: 100%;
+      height: 60vh;
+      background: var(--card-bg);
+      box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+      z-index: 999;
+      padding: 5rem 2rem 2rem;
+      transition: right 0.4s ease;
+      overflow-y: auto;
+    }
+
+    .mobile-menu.active {
+      right: 0;
+    }
+
+    .mobile-menu a {
+      display: block;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1.4rem;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .menu-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 2.5rem;
+      color: var(--text);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    main { padding-top: 90px; padding-bottom: 4rem; }
+
+    .hero {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      margin-bottom: 1.5rem;
+    }
+
+    .highlight {
+      color: var(--primary);
+    }
+
+    .hero p {
+      font-size: clamp(1.2rem, 3vw, 1.5rem);
+      color: var(--text-light);
+      max-width: 800px;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: var(--card-bg);
+      color: var(--primary);
+      font-weight: 600;
+      border-radius: var(--radius);
+      text-decoration: none;
+      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+      transition: all 0.3s;
+      font-size: 1.1rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+      transform: translateY(2px);
+    }
+
+    section {
+      max-width: 1400px;
+      margin: 0 auto 4rem;
+      padding: 4rem 5%;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      text-align: center;
+      font-size: clamp(2.2rem, 5vw, 3rem);
+      margin-bottom: 2.5rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+      transition: all 0.4s ease;
+      text-align: center;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 12px 12px 24px var(--shadow-dark), -12px -12px 24px var(--shadow-light);
+    }
+
+    .card-icon { font-size: 4rem; color: var(--primary); margin-bottom: 1.2rem; }
+    .card h3 { font-size: 1.6rem; margin-bottom: 1rem; }
+    .card p { color: var(--text-light); font-size: 1rem; }
+
+    /* Testimonials Grid */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .testimonial-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+      transition: all 0.4s ease;
+      border-left: 5px solid var(--primary);
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+    }
+
+    .testimonial-rating {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+      display: inline-block;
+    }
+
+    .testimonial-card p {
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    .testimonial-card strong {
+      display: block;
+      color: var(--primary);
+      margin-bottom: 0.3rem;
+      font-size: 1.1rem;
+    }
+
+    .testimonial-card small {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* FAQ Section */
+    #faq {
+      max-width: 900px;
+    }
+
+    .faq-container {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .faq-item {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 1.5rem 2rem;
+      background: var(--card-bg);
+      border: none;
+      text-align: left;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .faq-question:hover {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--primary);
+    }
+
+    .faq-question span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--primary);
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.active .faq-question span {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 2rem 2rem;
+      color: var(--text-light);
+      line-height: 1.8;
+      animation: fadeInUp 0.3s ease;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    /* Newsletter Section */
+    #newsletter {
+      text-align: center;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 4rem 5%;
+      margin: 0 5% 4rem;
+      box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+    }
+
+    #newsletter h2 {
+      margin-bottom: 1rem;
+    }
+
+    #newsletter > p:first-of-type {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      margin-bottom: 2rem;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 1rem;
+      max-width: 500px;
+      margin: 0 auto 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      min-width: 200px;
+      padding: 1rem 1.5rem;
+      border-radius: 30px;
+      border: 2px solid var(--primary);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .newsletter-form input:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    }
+
+    .newsletter-form button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 30px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .newsletter-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .newsletter-note {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-top: 1rem;
+    }
+
+    /* Portfolio Grid */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+      margin-top: 3rem;
+    }
+
+    .portfolio-box {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+      transition: all 0.4s ease;
+      cursor: pointer;
+      height: 420px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .portfolio-box:hover {
+      transform: translateY(-8px);
+      box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light), 0 0 20px rgba(16,185,129,0.2);
+    }
+
+    .portfolio-box img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 0;
+      transition: transform 0.5s ease;
+    }
+
+    .portfolio-box:hover img {
+      transform: scale(1.08);
+    }
+
+    .portfolio-info {
+      padding: 1.4rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+    }
+
+    .portfolio-info h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+      width: 100%;
+    }
+
+    .portfolio-info p {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      margin-bottom: 0.8rem;
+      width: 130%;
+      flex-grow: 1;
+    }
+
+    .portfolio-tag {
+      font-size: 0.80rem;
+      padding: 0.4rem 1rem;
+      border-radius: 30px;
+      font-weight: 600;
+      align-self: center;
+      margin-top: 0.3rem;
+      margin-bottom: 0.6rem;
+      transition: all 0.3s;
+    }
+
+    .portfolio-tag:hover { transform: scale(1.05); }
+
+    .portfolio-tag.live     { background: var(--tag-bg-live);    color: var(--tag-text-live); }
+    .portfolio-tag.progress { background: var(--tag-bg-progress); color: var(--tag-text-progress); }
+    .portfolio-tag.fav      { background: var(--tag-bg-fav);     color: var(--tag-text-fav); }
+
+    .portfolio-demo-btn {
+      padding: 0.6rem 3rem;
+      background: var(--primary);
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: all 0.3s;
+      box-shadow: 0 4px 10px rgba(16,185,129,0.4);
+      display: inline-block;
+      width: auto;
+      align-self: center;
+      margin-top: 0.2rem;
+      z-index: 10;
+      position: relative;
+      border: none;
+      cursor: pointer;
+    }
+
+    .portfolio-demo-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(16,185,129,0.5);
+      background: #0a9970;
+    }
+
+    /* CTA */
+    .cta {
+      text-align: center;
+      padding: 8rem 5%;
+      background: var(--card-bg);
+      box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+      border-radius: var(--radius);
+      margin: 0 5% 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta h2 { font-size: 3rem; margin-bottom: 1.5rem; }
+    .cta p { font-size: 1.2rem; color: var(--text-light); max-width: 800px; margin: 1rem auto; }
+    .cta p:nth-child(3) { font-size: 1.3rem; margin: 2rem auto; color: var(--text); }
+    .cta p:last-child { color: rgba(0,0,0,0.7); margin-top: 2rem; }
+    .cta .btn { margin: 2rem auto; }
+
+    /* Contact CTA */
+    #contact-cta {
+      text-align: center;
+      background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(52,168,224,0.1) 100%) !important;
+      border-radius: 20px !important;
+      margin: 3rem 5% !important;
+      padding: 3rem 5% !important;
+    }
+
+    #contact-cta h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    #contact-cta p {
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    #contact-cta .btn-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      text-align: center;
+      padding: 4rem 5% 6rem;
+      color: var(--text-light);
+      font-size: 1rem;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .footer-content {
+      margin-bottom: 2rem;
+    }
+
+    .footer-content p {
+      margin: 0.5rem 0;
+      font-size: 0.95rem;
+    }
+
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .footer-social a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      background: var(--card-bg);
+      border-radius: 50%;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 1.4rem;
+      transition: all 0.3s ease;
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+    }
+
+    .footer-social a:hover {
+      transform: translateY(-3px);
+      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+      color: #fff;
+      background: var(--primary);
+    }
+
+    /* Back to Top Button */
+    #backToTop {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 50px;
+      height: 50px;
+      background: var(--card-bg);
+      border: none;
+      border-radius: 50%;
+      color: var(--primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+      transition: all 0.3s ease;
+      z-index: 999;
+      animation: fadeIn 0.3s ease;
+    }
+
+    #backToTop:hover {
+      transform: translateY(-5px);
+      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+      color: #fff;
+      background: var(--primary);
+    }
+
+    #backToTop.show {
+      display: flex;
+    }
+
+    .extra-content {
+        display: none;
+        margin: 10px 0;
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+    .card {
+        cursor: pointer;
+    }
+
+    /* Google Form Container */
+    .form-container {
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+    }
+
+    .form-container iframe {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+    }
+
+    /* WhatsApp Button */
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+      transition: all 0.3s ease;
+      z-index: 999;
+      font-size: 1.8rem;
+    }
+
+    .whatsapp-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      .whatsapp-btn {
+        bottom: 1rem;
+        right: 1rem;
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 1024px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .portfolio-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 1.2rem 4%; }
+      .logo { font-size: 1.4rem; }
+      .portfolio-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+      .portfolio-box { height: 380px; }
+      .portfolio-box img { height: 180px; }
+      section { padding: 3rem 6%; }
+      .newsletter-form { flex-direction: column; }
+      .newsletter-form input { min-width: 100%; }
+      #contact-cta .btn-group { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">SM Studio</div>
+    <div class="nav-links">
+      <a href="services.html">Services</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="booking.html">Book Now</a>
+    </div>
+    <button class="hamburger" id="hamburger" type="button" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="menu-close" id="menuClose">×</button>
+  <a href="services.html">Services</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="#testimonials">Reviews</a>
+  <a href="booking.html">Book Now</a>
+</div>
+
+<main>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>I help brands <span class="highlight">grow</span> with beautiful visuals & digital experiences</h1>
+    <p>Hi, I'm Subramani — a photographer, video editor, brand designer, and web developer based in Tamil Nadu.
+I create visual and digital experiences that connect with audiences, drive engagement, and deliver results.</p>
+    <a href="#cta" class="btn">Let's talk about your project</a>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <h2>What I can do for you</h2>
+    <div class="grid">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">📸</div>
+        <h3>Photography</h3>
+        <p class="short-text">Professional portraits, product shoots, events & lifestyle photography.</p>
+        <div class="extra-content">
+          <p>Portraits, weddings, product photography, events, lifestyle shoots, and creative concepts.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🎥</div>
+        <h3>Video Editing & Motion</h3>
+        <p>Cinematic Reels, YouTube videos, ads & promos — color graded, paced perfectly, ready to captivate audiences.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">✨</div>
+        <h3>Brand Identity Design</h3>
+        <p>Logos, full brand kits, color palettes, typography — creating memorable identities that stand the test of time.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <h3>Website Development</h3>
+        <p>Fast, beautiful, mobile-first websites — portfolios, landing pages, small business sites that convert visitors into clients.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📱</div>
+        <h3>Social Media Content</h3>
+        <p>Eye-catching graphics, carousels, stories & short videos — designed to boost engagement and grow your online presence.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <h3>Graphics Design</h3>
+        <p>Custom graphics for presentations, marketing materials, ads & more — visually compelling designs that communicate your message.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📚</div>
+        <h3>FinalYear Projects</h3>
+        <p>Providing a comprehensive solution for final year projects in various domains.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section id="portfolio">
+    <h2>Selected Work</h2>
+    <div class="portfolio-grid">
+      <div class="portfolio-box">
+        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&ixlib=rb-4.0&q=80&fm=jpg" alt="Fintech Startup Rebrand">
+        <div class="portfolio-info">
+          <h3>Fintech Startup Rebrand</h3>
+          <p>Complete logo, color palette, and brand guidelines</p>
+          <span class="portfolio-tag live">Live Now</span>
+        </div>
+      </div>
+
+      <div class="portfolio-box">
+        <img src="https://images.unsplash.com/photo-1678804667742-fac4460dd26e?w=400&ixlib=rb-4.0&q=80&fm=jpg" alt="Product Launch Reel">
+        <div class="portfolio-info">
+          <h3>Product Launch Reel</h3>
+          <p>60-second cinematic promo video</p>
+          <span class="portfolio-tag live">Just Delivered</span>
+        </div>
+      </div>
+
+      <div class="portfolio-box">
+        <img src="https://images.unsplash.com/photo-1557683316-973673baf926?w=400&ixlib=rb-4.0&q=80&fm=jpg" alt="Fashion Instagram Series">
+        <div class="portfolio-info">
+          <h3>Fashion Instagram Series</h3>
+          <p>15-post carousel + stories pack</p>
+          <span class="portfolio-tag progress">In Production</span>
+        </div>
+      </div>
+
+      <div class="portfolio-box">
+        <img src="https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=400&ixlib=rb-4.0&q=80&fm=jpg" alt="Coffee Shop Branding">
+        <div class="portfolio-info">
+          <h3>Coffee Shop Branding</h3>
+          <p>Full visual identity with packaging design</p>
+          <span class="portfolio-tag live">Live Now</span>
+        </div>
+      </div>
+
+      <div class="portfolio-box">
+        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&ixlib=rb-4.0&q=80&fm=jpg" alt="SaaS Landing Page">
+        <div class="portfolio-info">
+          <h3>SaaS Landing Page</h3>
+          <p>High-converting product landing page</p>
+          <span class="portfolio-tag live">Recently Launched</span>
+        </div>
+      </div>
+
+      <div class="portfolio-box">
+        <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=400&ixlib=rb-4.0&q=80&fm=jpg" alt="Beauty Brand Social Campaign">
+        <div class="portfolio-info">
+          <h3>Beauty Brand Social Campaign</h3>
+          <p>30-post content calendar + video ads</p>
+          <span class="portfolio-tag progress">In Production</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials">
+    <h2>What Clients Say</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+        <p>"Subramani completely understood our brand vision. The logo and guidelines he created gave us instant credibility."</p>
+        <strong>Priya Sharma</strong>
+        <small>Startup Founder</small>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+        <p>"The video editing was cinematic perfection. Our reel performed beyond expectations — attention to detail is unmatched."</p>
+        <strong>Karthik Raj</strong>
+        <small>Content Creator</small>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+        <p>"Social graphics were eye-catching and on-brand. Engagement jumped significantly — highly recommend!"</p>
+        <strong>Aisha Khan</strong>
+        <small>Brand Manager</small>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+        <p>"Portfolio site is stunning and loads super fast. Subramani listened and delivered perfection."</p>
+        <strong>Rahul Mehta</strong>
+        <small>Freelance Photographer</small>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+        <p>"Professional, responsive, and incredibly creative. My brand identity is now exactly what I envisioned."</p>
+        <strong>Sneha Desai</strong>
+        <small>E-commerce Owner</small>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+        <p>"Best investment I made for my business. The website he built has increased my inquiries by 300%."</p>
+        <strong>Vikram Patel</strong>
+        <small>Business Owner</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-container">
+      <div class="faq-item">
+        <button class="faq-question">How long does a typical project take? <span>+</span></button>
+        <div class="faq-answer">
+          <p>Most projects take 7-30 days depending on complexity. Photography shoots: 1-3 days. Video editing: 5-15 days. Web development: 15-45 days. Branding: 10-20 days.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">What is your revision policy? <span>+</span></button>
+        <div class="faq-answer">
+          <p>I include unlimited revisions until you're 100% satisfied. We'll work together until the final result exceeds your expectations.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Do you offer payment plans? <span>+</span></button>
+        <div class="faq-answer">
+          <p>Yes! For projects above ₹50,000, I offer 50/50 payment split: 50% upfront and 50% on delivery. Custom plans available.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Can you work with my existing team? <span>+</span></button>
+        <div class="faq-answer">
+          <p>Absolutely! I collaborate seamlessly with agencies, teams, and other freelancers. Let's discuss your needs.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">What file formats do you deliver? <span>+</span></button>
+        <div class="faq-answer">
+          <p>All files are delivered in industry-standard formats: PNG, JPG, SVG, PDF, MP4, MOV, DOCX, and more. You'll own all deliverables.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">How do I get started? <span>+</span></button>
+        <div class="faq-answer">
+          <p>Fill out the booking form or WhatsApp me details about your project. I'll respond within 24 hours with a custom proposal.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section id="newsletter">
+    <h2>Stay Updated</h2>
+    <p>Get design tips, industry insights, and special offers delivered to your inbox</p>
+    <form class="newsletter-form" id="newsletterForm">
+      <input type="email" placeholder="your@email.com" required>
+      <button type="submit" class="btn">Subscribe</button>
+    </form>
+    <p class="newsletter-note">No spam, unsubscribe anytime. We respect your privacy.</p>
+  </section>
+
+  <!-- Contact CTA -->
+  <section id="contact-cta">
+    <h3>Have Questions?</h3>
+    <p>I'm available for quick chats on WhatsApp or you can schedule a call</p>
+    <div class="btn-group">
+      <a href="https://wa.me/919840108540?text=Hi%20Subramani%2C%20I'd%20like%20to%20know%20more%20about%20your%20services%21" target="_blank" class="btn" style="background: #25D366; color: white !important;">💬 Chat with Bot</a>
+      <button onclick="scheduleCall()" class="btn" style="background: var(--primary); color: white !important;">📞 Schedule a Call</button>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="cta">
+    <h2>Ready to start your project?</h2>
+    <p>I help individuals and brands translate ideas into powerful visual identities.
+Every project is built on strategy, creativity, and technical precision—so the result is not just attractive, but effective.</p>
+    <p>Project pricing generally starts at ₹15,000 and can go up to ₹80,000, depending on what you need.
+<br>Fill out the form, and I'll get back to you within 24 hours.</p>
+    <a href="booking.html" target="_blank" class="btn">Fill Project Inquiry Form</a>
+    <p>Or WhatsApp me directly: +91 98765 43210</p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-content">
+    <p>📧 <strong>Email:</strong> subramani@smstudio.com</p>
+    <p>📱 <strong>WhatsApp:</strong> +91 98765 43210</p>
+    <p>📍 <strong>Location:</strong> Tamil Nadu, India</p>
+    <p>⏰ <strong>Response Time:</strong> Within 24 hours</p>
+  </div>
+  <div class="footer-social">
+    <a href="https://instagram.com" target="_blank" title="Instagram">📷</a>
+    <a href="https://behance.net" target="_blank" title="Behance">🎨</a>
+    <a href="https://linkedin.com" target="_blank" title="LinkedIn">💼</a>
+    <a href="https://twitter.com" target="_blank" title="Twitter">𝕏</a>
+  </div>
+  © 2026 SM Studio — Subramani<br />
+  <small>Photography • Video • Brand • Web • Made with vision & care</small>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Hamburger Menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuClose = document.getElementById('menuClose');
+
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    menuClose.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    mobileMenu.addEventListener('click', e => {
+      if (e.target === mobileMenu) {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Toggle Card
+    function toggleCard(card) {
+      const content = card.querySelector(".extra-content");
+      if (content.style.display === "block") {
+        content.style.display = "none";
+      } else {
+        content.style.display = "block";
+      }
+    }
+
+    window.toggleCard = toggleCard;
+
+    // FAQ Toggle
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentElement;
+        item.classList.toggle('active');
+      });
+    });
+
+    // Newsletter Form
+    const newsletterForm = document.getElementById('newsletterForm');
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Thanks for subscribing! Check your email for confirmation.');
+        e.target.reset();
+      });
+    }
+
+    // Back to Top Button
+    const backToTopBtn = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(anchor.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          mobileMenu.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+  });
+
+  // Schedule Call Function
+  function scheduleCall() {
+    alert('Redirecting to calendar booking...');
+    // Replace with your actual calendar link (Calendly, Acuity Scheduling, etc.)
+    window.open('https://calendly.com/yourprofile', '_blank');
+  }
+
+  window.scheduleCall = scheduleCall;
+</script>
+
+<!-- WhatsApp Button (Chatbot) -->
+<a href="https://wa.me/919840108540?text=Hi%20Subramani%2C%20I'd%20like%20to%20know%20more%20about%20your%20services%21" target="_blank" class="whatsapp-btn" title="Chat with AI Bot">
+  💬
+</a>
+
+<!-- Back to Top Button -->
+<button id="backToTop" title="Back to Top">↑</button>
+
+</body>
+</html>

@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+
+
+<style>
+:root {
+  --bg:#e5e9f0;
+  --card-bg:#e0e5ec;
+  --text:#2c3e50;
+  --text-light:#5c7a99;
+  --primary:#10b981;
+  --shadow-dark:rgba(163,177,198,.6);
+  --shadow-light:rgba(255,255,255,.9);
+  --radius:20px;
+}
+
+/* Dark Mode */
+body.dark-mode {
+  --bg: #1a1a2e;
+  --card-bg: #16213e;
+  --text: #e0e0e0;
+  --text-light: #a0a0a0;
+  --shadow-dark: rgba(0,0,0,0.8);
+  --shadow-light: rgba(255,255,255,0.1);
+}
+
+/* ============= ANIMATIONS ============= */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pageLoad {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  background:var(--bg);
+  font-family:Inter,Arial,sans-serif;
+  color:var(--text);
+  animation: pageLoad 0.6s ease-out;
+}
+
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: var(--card-bg);
+  box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+  z-index: 1000;
+  padding: 1rem 5%;
+}
+
+nav {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  font-weight: 700;
+  color: var(--primary);;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+.nav-links a.active {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Dark Mode & Search Buttons */
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  position: relative;
+}
+
+.dark-mode-toggle, .search-toggle {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text);
+  transition: all 0.3s;
+  padding: 0.5rem;
+}
+
+.dark-mode-toggle:hover, .search-toggle:hover {
+  color: var(--primary);
+  transform: rotate(20deg);
+}
+
+/* Search Bar */
+.search-container {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 300px;
+  padding: 1rem;
+  z-index: 999;
+  margin-top: 0.5rem;
+}
+
+.search-box {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: var(--radius);
+  border: 2px solid var(--primary);
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px var(--shadow-dark);
+  animation: slideDown 0.3s ease-out;
+}
+
+.search-box::placeholder {
+  color: var(--text-light);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 32px;
+  height: 4px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0; right: -100%;
+  width: 80%;
+  max-width: 320px;
+  height: 100%;
+  background: var(--card-bg);
+  box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+  z-index: 999;
+  padding: 6rem 2rem 2rem;
+  transition: right 0.4s ease;
+}
+
+.mobile-menu.active {
+  right: 0;
+}
+
+.mobile-menu a {
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1.4rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.menu-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 3rem;
+  color: var(--text);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+main{
+  padding-top: 90px;
+  padding: 4rem 5%;
+  max-width:1400px;
+  margin:auto;
+}
+
+h2{
+  text-align:center;
+  font-size:2.6rem;
+  margin-bottom:3rem;
+}
+
+#portfolio {
+  margin-top: 3rem;
+}
+
+/* STATS DASHBOARD */
+.stats-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: var(--radius);
+  text-align: center;
+  box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+  transition: all 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* FILTER BUTTONS */
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.8rem 2rem;
+  background: var(--card-bg);
+  color: var(--text);
+  border: 2px solid transparent;
+  border-radius: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+  font-size: 1rem;
+}
+
+.filter-btn:hover {
+  color: var(--primary);
+}
+
+.filter-btn.active {
+  color: white;
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 4px 15px rgba(16,185,129,0.4);
+}
+
+/* PORTFOLIO GRID */
+.portfolio-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:2.5rem;
+  scroll-snap-type: x mandatory;
+}
+
+.portfolio-box{
+  background:var(--card-bg);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:6px 6px 12px var(--shadow-dark),
+             -6px -6px 12px var(--shadow-light);
+  cursor:pointer;
+  transition:.4s;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  position: relative;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.portfolio-box:hover{
+  transform:translateY(-8px);
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.15);
+}
+
+.favorite-btn.liked {
+  background: #ff3b30;
+  color: white;
+}
+
+.portfolio-box img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+
+.portfolio-info{
+  padding:1.4rem;
+  text-align:center;
+}
+
+.portfolio-info h3{
+  margin-bottom:.4rem;
+}
+
+.portfolio-info p{
+  color:var(--text-light);
+  font-size:.95rem;
+  margin-bottom:.8rem;
+}
+
+.portfolio-tag{
+  display:inline-block;
+  font-size:.8rem;
+  padding:.4rem 1rem;
+  border-radius:30px;
+  font-weight:600;
+  margin-bottom:.8rem;
+}
+
+.portfolio-tag.live{background:rgba(16,185,129,.2);color:#065f46}
+.portfolio-tag.progress{background:rgba(245,158,11,.2);color:#92400e}
+.portfolio-tag.fav{background:rgba(139,92,246,.2);color:#4c1d95}
+
+.portfolio-demo-btn{
+  display:inline-block;
+  padding:.6rem 2.5rem;
+  background:var(--primary);
+  color:white;
+  font-weight:700;
+  border-radius:30px;
+  text-decoration:none;
+}
+
+/* MODAL */
+.project-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:2000;
+}
+
+.project-modal-content{
+  background:var(--card-bg);
+  width:90%;
+  max-width:900px;
+  max-height:90vh;
+  overflow-y:auto;
+  padding:2.5rem;
+  border-radius:var(--radius);
+  box-shadow:10px 10px 20px var(--shadow-dark),
+             -10px -10px 20px var(--shadow-light);
+  position:relative;
+  animation: slideInUp 0.4s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-close{
+  position:absolute;
+  top:15px;
+  right:25px;
+  font-size:2.5rem;
+  background:none;
+  border:none;
+  cursor:pointer;
+  color: var(--text);
+  transition: all 0.3s;
+}
+
+.modal-close:hover {
+  color: var(--primary);
+  transform: rotate(90deg);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.modal-btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-btn-share {
+  background: var(--primary);
+  color: white;
+}
+
+.modal-btn-share:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(16,185,129,0.3);
+}
+
+.modal-btn-quote {
+  background: rgba(16,185,129,0.1);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.modal-btn-quote:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.modal-btn-view {
+  background: rgba(52,168,224,0.1);
+  color: #34a8e0;
+  border: 2px solid #34a8e0;
+}
+
+.modal-btn-view:hover {
+  background: #34a8e0;
+  color: white;
+}
+
+.project-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.skill-tag {
+  background: rgba(16,185,129,0.15);
+  color: var(--primary);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.project-difficulty {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.difficulty-beginner {
+  background: rgba(34,197,94,0.15);
+  color: #22c55e;
+}
+
+.difficulty-intermediate {
+  background: rgba(59,130,246,0.15);
+  color: #3b82f6;
+}
+
+.difficulty-advanced {
+  background: rgba(139,92,246,0.15);
+  color: #8b5cf6;
+}
+
+/* Share Modal */
+.share-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+.share-modal-content {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 10px 10px 20px var(--shadow-dark);
+  max-width: 400px;
+  animation: slideInUp 0.3s ease-out;
+}
+
+.share-title {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
+.share-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.share-link-btn {
+  padding: 0.8rem 1rem;
+  border: 2px solid var(--primary);
+  background: transparent;
+  color: var(--primary);
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.share-link-btn:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.copy-feedback {
+  text-align: center;
+  color: var(--primary);
+  font-weight: 600;
+  margin-top: 1rem;
+  display: none;
+}
+
+.modal-samples{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1.5rem;
+  margin:2rem 0;
+}
+
+.modal-samples img,
+.modal-samples video{
+  width:100%;
+  border-radius:12px;
+}
+
+.related li{
+  margin-left:1.2rem;
+  margin-bottom:.4rem;
+}
+
+footer {
+  text-align: center;
+  padding: 4rem 5% 6rem;
+  color: var(--text-light);
+  font-size: 1rem;
+  animation: fadeInUp 1s ease-out;
+}
+
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  background: var(--card-bg);
+  border-radius: 50%;
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 1.4rem;
+  transition: all 0.3s ease;
+  box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+}
+
+.footer-social a:hover {
+  transform: translateY(-3px);
+  box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+  color: #fff;
+  background: var(--primary);
+}
+
+#backToTop {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  background: var(--card-bg);
+  border: none;
+  border-radius: 50%;
+  color: var(--primary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+  transition: all 0.3s ease;
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+#backToTop:hover {
+  transform: translateY(-5px);
+  box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+  color: #fff;
+  background: var(--primary);
+}
+
+#backToTop.show {
+  display: flex;
+}
+
+/* Google Form Container */
+.form-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+}
+
+.form-container iframe {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+  max-width: 1400px;
+  margin: 90px auto 0;
+  padding: 1rem 5%;
+  font-size: 0.95rem;
+  color: var(--text-light);
+  animation: fadeIn 0.5s ease;
+}
+
+.breadcrumbs a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.breadcrumbs a:hover {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+.breadcrumbs span {
+  margin: 0 0.5rem;
+  color: var(--text-light);
+}
+
+/* Portfolio Modal/Gallery */
+.portfolio-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+}
+
+.portfolio-modal.active {
+  display: flex;
+}
+
+.portfolio-modal-content {
+  position: relative;
+  max-width: 900px;
+  width: 90%;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: slideInUp 0.4s ease;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.portfolio-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 2.5rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: color 0.3s;
+  z-index: 2001;
+}
+
+.portfolio-modal-close:hover {
+  color: var(--primary);
+}
+
+.portfolio-modal-img {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  animation: fadeIn 0.4s ease;
+}
+
+.portfolio-modal-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+  font-family: 'Playfair Display', serif;
+}
+
+.portfolio-modal-desc {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.portfolio-modal-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.portfolio-modal-tag {
+  padding: 0.5rem 1rem;
+  background: rgba(16,185,129,0.1);
+  color: #065f46;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.portfolio-modal-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.portfolio-modal-nav button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.portfolio-modal-nav button:hover {
+  box-shadow: 0 8px 20px rgba(16,185,129,0.3);
+  transform: translateY(-2px);
+}
+
+.portfolio-modal-nav button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.portfolio-counter {
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+/* WhatsApp Button */
+.whatsapp-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+  transition: all 0.3s ease;
+  z-index: 999;
+  font-size: 1.8rem;
+}
+
+.whatsapp-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.6);
+}
+
+@media (max-width: 768px) {
+  .whatsapp-btn {
+    bottom: 1rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 1024px) {
+  .nav-links {
+    display: none;
+  }
+  
+  .hamburger {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  
+  .hamburger {
+    display: flex;
+  }
+  
+  main {
+    padding: 2rem 5%;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <nav>
+    <div class="logo">SM Studio</div>
+    <div class="nav-links">
+      <a href="services.html">Services</a>
+      <a href="portfolio.html" class="active">Portfolio</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="booking.html">Book Now</a>
+    </div>
+    <div class="header-actions">
+      <button class="search-toggle" id="searchToggle" title="Search projects">🔍</button>
+      <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle dark mode">🌙</button>
+      <!-- Search Bar -->
+      <div class="search-container" id="searchContainer">
+        <input type="text" class="search-box" id="searchBox" placeholder="Search projects...">
+      </div>
+    </div>
+    <button class="hamburger" id="hamburger" type="button" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="menu-close" id="menuClose">×</button>
+  <a href="services.html">Services</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="#testimonials">Reviews</a>
+  <a href="booking.html">Book Now</a>
+</div>
+
+<main>
+
+<!-- Breadcrumbs -->
+<div class="breadcrumbs">
+  <a href="index.html">Home</a>
+  <span>/</span>
+  <span>Portfolio</span>
+</div>
+
+<section id="portfolio">
+<h2>Selected Work</h2>
+
+<!-- STATS DASHBOARD -->
+<div class="stats-dashboard">
+  <div class="stat-card">
+    <div class="stat-number">12+</div>
+    <div class="stat-label">Projects Delivered</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number">50+</div>
+    <div class="stat-label">Happy Clients</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number">5+</div>
+    <div class="stat-label">Years Experience</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number">100%</div>
+    <div class="stat-label">Client Satisfaction</div>
+  </div>
+</div>
+
+<!-- FILTER BUTTONS -->
+<div class="filter-buttons">
+  <button class="filter-btn active" onclick="filterPortfolio('all')">All</button>
+  <button class="filter-btn" onclick="filterPortfolio('photography')">📸 Photography</button>
+  <button class="filter-btn" onclick="filterPortfolio('video')">🎥 Video</button>
+  <button class="filter-btn" onclick="filterPortfolio('web')">🌐 Web</button>
+</div>
+
+<div class="portfolio-grid" id="portfolioGrid">
+
+<!-- LOGO DESIGN -->
+<div class="portfolio-box" data-category="web" data-project="Logo Design" onclick="openProject(
+  'Logo Design',
+  'Custom logo design created with brand colors, typography, and scalable formats.',
+  'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  '',
+  ['Brand Identity','Business Logo','Startup Logo']
+)">
+  <button class="favorite-btn" data-project="Logo Design" onclick="toggleFavorite(event, 'Logo Design')">🤍</button>
+  <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&ixlib=rb-4.0&q=80&fm=jpg">
+  <div class="portfolio-info">
+    <h3>Logo Design</h3>
+    <p>Professional brand logo creation</p>
+    <span class="portfolio-tag live">Completed</span><br>
+    <span class="portfolio-demo-btn">View Details</span>
+  </div>
+</div>
+
+<!-- VIDEO EDITING -->
+<div class="portfolio-box" data-category="video" data-project="Video Editing" onclick="openProject(
+  'Video Editing',
+  'High-quality video editing for reels, YouTube videos, promos, and ads.',
+  'https://images.unsplash.com/photo-1499669405581-ceb8dd6ff4c1?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://images.unsplash.com/photo-1460925895917-afdab684c3c7?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://www.w3schools.com/html/mov_bbb.mp4',
+  ['Instagram Reel','YouTube Video','Promo Edit']
+)">
+  <button class="favorite-btn" data-project="Video Editing" onclick="toggleFavorite(event, 'Video Editing')">🤍</button>
+  <img src="https://images.unsplash.com/photo-1499669405581-ceb8dd6ff4c1?w=400&ixlib=rb-4.0&q=80&fm=jpg">
+  <div class="portfolio-info">
+    <h3>Video Editing</h3>
+    <p>Reels, ads & cinematic edits</p>
+    <span class="portfolio-tag live">Delivered</span><br>
+    <span class="portfolio-demo-btn">View Details</span>
+  </div>
+</div>
+
+<!-- SOCIAL MEDIA CONTENT -->
+<div class="portfolio-box" data-category="video" data-project="Social Media Content" onclick="openProject(
+  'Social Media Content',
+  'Content creation including posts, reels, captions, and brand storytelling.',
+  'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  '',
+  ['Instagram Content','Brand Campaign','Reels Strategy']
+)">
+  <button class="favorite-btn" data-project="Social Media Content" onclick="toggleFavorite(event, 'Social Media Content')">🤍</button>
+  <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=400&ixlib=rb-4.0&q=80&fm=jpg">
+  <div class="portfolio-info">
+    <h3>Social Media Content</h3>
+    <p>Posts, reels & campaigns</p>
+    <span class="portfolio-tag progress">Ongoing</span><br>
+    <span class="portfolio-demo-btn">View Details</span>
+  </div>
+</div>
+
+<!-- GRAPHIC DESIGN -->
+<div class="portfolio-box" data-category="photography" data-project="Graphic Design" onclick="openProject(
+  'Graphic Design',
+  'Posters, banners, flyers, and social media creatives for marketing.',
+  'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  '',
+  ['Poster Design','Flyers','Digital Ads']
+)">
+  <button class="favorite-btn" data-project="Graphic Design" onclick="toggleFavorite(event, 'Graphic Design')">🤍</button>
+  <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&ixlib=rb-4.0&q=80&fm=jpg">
+  <div class="portfolio-info">
+    <h3>Graphic Design</h3>
+    <p>Marketing & creative designs</p>
+    <span class="portfolio-tag live">Completed</span><br>
+    <span class="portfolio-demo-btn">View Details</span>
+  </div>
+</div>
+
+<!-- PHOTOGRAPHY -->
+<div class="portfolio-box" data-category="photography" data-project="Photography" onclick="openProject(
+  'Photography',
+  'Product, event, and personal photography with professional editing.',
+  'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  '',
+  ['Product Shoot','Event Coverage','Portraits']
+)">
+  <button class="favorite-btn" data-project="Photography" onclick="toggleFavorite(event, 'Photography')">🤍</button>
+  <img src="https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=400&ixlib=rb-4.0&q=80&fm=jpg">
+  <div class="portfolio-info">
+    <h3>Photography</h3>
+    <p>Product & event shoots</p>
+    <span class="portfolio-tag live">Live</span><br>
+    <span class="portfolio-demo-btn">View Details</span>
+  </div>
+</div>
+
+<!-- WEBSITE DEVELOPMENT -->
+<div class="portfolio-box" data-category="web" data-project="Website Development" onclick="openProject(
+  'Website Development',
+  'Responsive business and portfolio websites with clean UI/UX.',
+  'https://images.unsplash.com/photo-1460925895917-afdab684c3c7?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  '',
+  ['Portfolio Website','Business Website','Landing Page']
+)">
+  <button class="favorite-btn" data-project="Website Development" onclick="toggleFavorite(event, 'Website Development')">🤍</button>
+  <img src="https://images.unsplash.com/photo-1460925895917-afdab684c3c7?w=400&ixlib=rb-4.0&q=80&fm=jpg">
+  <div class="portfolio-info">
+    <h3>Website Development</h3>
+    <p>Business & portfolio sites</p>
+    <span class="portfolio-tag live">Launched</span><br>
+    <span class="portfolio-demo-btn">View Details</span>
+  </div>
+</div>
+
+<!-- FINAL YEAR PROJECTS -->
+<div class="portfolio-box" data-project="Final Year Projects" onclick="openProject(
+  'Final Year Projects',
+  'Academic project guidance including development, documentation, and demo.',
+  'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  '',
+  ['Engineering Projects','Mini Projects','Documentation']
+)">
+  <button class="favorite-btn" data-project="Final Year Projects" onclick="toggleFavorite(event, 'Final Year Projects')">🤍</button>
+  <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=400&ixlib=rb-4.0&q=80&fm=jpg">
+  <div class="portfolio-info">
+    <h3>Final Year Projects</h3>
+    <p>Academic project support</p>
+    <span class="portfolio-tag fav">Academic</span><br>
+    <span class="portfolio-demo-btn">View Details</span>
+  </div>
+</div>
+
+<!-- BRAND IDENTITY -->
+<div class="portfolio-box" data-category="web" data-project="Brand Identity System" onclick="openProject(
+  'Brand Identity System',
+  'Complete brand identity system including logo, color palette, typography, and guidelines.',
+  'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  '',
+  ['Logo Design','Brand Guidelines','Color System','Typography']
+)">
+  <button class="favorite-btn" data-project="Brand Identity System" onclick="toggleFavorite(event, 'Brand Identity System')">🤍</button>
+  <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&ixlib=rb-4.0&q=80&fm=jpg">
+  <div class="portfolio-info">
+    <h3>Brand Identity System</h3>
+    <p>Complete brand design package</p>
+    <span class="portfolio-tag live">Completed</span><br>
+    <span class="portfolio-demo-btn">View Details</span>
+  </div>
+</div>
+
+<!-- MOTION GRAPHICS -->
+<div class="portfolio-box" data-category="video" data-project="Motion Graphics" onclick="openProject(
+  'Motion Graphics',
+  'Animated explainer videos, kinetic typography, and dynamic visual effects.',
+  'https://images.unsplash.com/photo-1460925895917-afdab684c3c7?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://images.unsplash.com/photo-1499669405581-ceb8dd6ff4c1?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://www.w3schools.com/html/mov_bbb.mp4',
+  ['Explainer Video','Kinetic Typography','Visual Effects']
+)">
+  <button class="favorite-btn" data-project="Motion Graphics" onclick="toggleFavorite(event, 'Motion Graphics')">🤍</button>
+  <img src="https://images.unsplash.com/photo-1460925895917-afdab684c3c7?w=400&ixlib=rb-4.0&q=80&fm=jpg">
+  <div class="portfolio-info">
+    <h3>Motion Graphics</h3>
+    <p>Animated videos & visual effects</p>
+    <span class="portfolio-tag progress">Ongoing</span><br>
+    <span class="portfolio-demo-btn">View Details</span>
+  </div>
+</div>
+
+<!-- UI/UX DESIGN -->
+<div class="portfolio-box" data-category="photography" data-project="UI/UX Design" onclick="openProject(
+  'UI/UX Design',
+  'User interface and experience design for mobile apps and web platforms.',
+  'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://images.unsplash.com/photo-1460925895917-afdab684c3c7?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  '',
+  ['Mobile App Design','Web Design','Wireframes','Prototypes']
+)">
+  <button class="favorite-btn" data-project="UI/UX Design" onclick="toggleFavorite(event, 'UI/UX Design')">🤍</button>
+  <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&ixlib=rb-4.0&q=80&fm=jpg">
+  <div class="portfolio-info">
+    <h3>UI/UX Design</h3>
+    <p>App & web interface design</p>
+    <span class="portfolio-tag live">Live</span><br>
+    <span class="portfolio-demo-btn">View Details</span>
+  </div>
+</div>
+
+<!-- CONTENT CREATION -->
+<div class="portfolio-box" data-category="video" data-project="Content Creation" onclick="openProject(
+  'Content Creation',
+  'YouTube channel setup, thumbnails, intro videos, and complete content strategy.',
+  'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://images.unsplash.com/photo-1499669405581-ceb8dd6ff4c1?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://www.w3schools.com/html/mov_bbb.mp4',
+  ['YouTube Setup','Thumbnails','Intro Videos','Channel Branding']
+)">
+  <button class="favorite-btn" data-project="Content Creation" onclick="toggleFavorite(event, 'Content Creation')">🤍</button>
+  <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=400&ixlib=rb-4.0&q=80&fm=jpg">
+  <div class="portfolio-info">
+    <h3>Content Creation</h3>
+    <p>YouTube & streaming content</p>
+    <span class="portfolio-tag live">Launched</span><br>
+    <span class="portfolio-demo-btn">View Details</span>
+  </div>
+</div>
+
+<!-- PACKAGING DESIGN -->
+<div class="portfolio-box" data-category="photography" data-project="Packaging Design" onclick="openProject(
+  'Packaging Design',
+  'Product packaging design with 3D mockups, print-ready files, and sustainable solutions.',
+  'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800&ixlib=rb-4.0&q=80&fm=jpg',
+  '',
+  ['Package Design','3D Mockups','Print Design','Sustainable']
+)">
+  <button class="favorite-btn" data-project="Packaging Design" onclick="toggleFavorite(event, 'Packaging Design')">🤍</button>
+  <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&ixlib=rb-4.0&q=80&fm=jpg">
+  <div class="portfolio-info">
+    <h3>Packaging Design</h3>
+    <p>Product & brand packaging</p>
+    <span class="portfolio-tag live">Completed</span><br>
+    <span class="portfolio-demo-btn">View Details</span>
+  </div>
+</div>
+
+</div>
+</section>
+
+</main>
+
+<!-- MODAL -->
+<div id="projectModal" class="project-modal">
+  <div class="project-modal-content">
+    <button class="modal-close" onclick="closeProject()">×</button>
+    <div class="modal-header">
+      <div>
+        <h2 id="modalTitle"></h2>
+        <div id="modalDifficulty"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn-share" onclick="openShareModal()" title="Share this project">📤 Share</button>
+        <button class="modal-btn modal-btn-view" onclick="viewLiveProject()" id="viewLiveBtn" style="display:none;">🌐 View Live</button>
+        <button class="modal-btn modal-btn-quote" onclick="getQuote()">💬 Get Quote</button>
+      </div>
+    </div>
+    
+    <p id="modalDescription"></p>
+
+    <div>
+      <strong>Skills Used:</strong>
+      <div class="project-skills" id="projectSkills"></div>
+    </div>
+
+    <div class="modal-samples">
+      <img id="sampleImg1">
+      <img id="sampleImg2">
+      <video id="sampleVideo" controls></video>
+    </div>
+
+    <h3>Related Work</h3>
+    <ul id="relatedItems" class="related"></ul>
+  </div>
+</div>
+
+<!-- Share Modal -->
+<div class="share-modal" id="shareModal">
+  <div class="share-modal-content">
+    <h3 class="share-title">Share This Project</h3>
+    <div class="share-buttons">
+      <button class="share-link-btn" onclick="shareOn('twitter')">𝕏 Twitter</button>
+      <button class="share-link-btn" onclick="shareOn('linkedin')">in LinkedIn</button>
+      <button class="share-link-btn" onclick="shareOn('facebook')">f Facebook</button>
+      <button class="share-link-btn" onclick="shareOn('whatsapp')">📱 WhatsApp</button>
+      <button class="share-link-btn" onclick="shareOn('copy')">📋 Copy Link</button>
+    </div>
+    <div class="copy-feedback" id="copyFeedback">✓ Link copied to clipboard!</div>
+    <button class="modal-btn modal-btn-share" onclick="closeShareModal()" style="width:100%;margin-top:1rem;">Close</button>
+  </div>
+</div>
+
+<script>
+// ===== PROJECT DATABASE =====
+const projectDatabase = {
+  'Logo Design': { skills: ['Adobe Illustrator', 'Branding', 'Design'], difficulty: 'Intermediate', liveLink: '' },
+  'Video Editing': { skills: ['Premiere Pro', 'After Effects', 'Color Grading'], difficulty: 'Advanced', liveLink: '' },
+  'Social Media Content': { skills: ['Content Creation', 'Copywriting', 'Photography'], difficulty: 'Intermediate', liveLink: '' },
+  'Graphic Design': { skills: ['Photoshop', 'Design', 'Typography'], difficulty: 'Intermediate', liveLink: '' },
+  'Photography': { skills: ['Photography', 'Lighting', 'Editing'], difficulty: 'Intermediate', liveLink: '' },
+  'Website Development': { skills: ['HTML', 'CSS', 'JavaScript', 'Responsive Design'], difficulty: 'Advanced', liveLink: '#' },
+  'Final Year Projects': { skills: ['Development', 'Documentation', 'Demo'], difficulty: 'Advanced', liveLink: '' },
+  'Brand Identity System': { skills: ['Branding', 'Design', 'Guidelines'], difficulty: 'Advanced', liveLink: '' },
+  'Motion Graphics': { skills: ['After Effects', 'Animation', 'Visual Effects'], difficulty: 'Advanced', liveLink: '' },
+  'UI/UX Design': { skills: ['Figma', 'Wireframing', 'Prototyping', 'User Research'], difficulty: 'Advanced', liveLink: '' },
+  'Content Creation': { skills: ['YouTube', 'Thumbnails', 'Video', 'Branding'], difficulty: 'Intermediate', liveLink: '' },
+  'Packaging Design': { skills: ['Packaging', 'Design', '3D Mockups'], difficulty: 'Advanced', liveLink: '' }
+};
+
+// ===== DARK MODE =====
+const darkModeToggle = document.getElementById('darkModeToggle');
+const htmlElement = document.documentElement;
+
+// Load saved dark mode preference
+if (localStorage.getItem('darkMode') === 'true') {
+  document.body.classList.add('dark-mode');
+  darkModeToggle.textContent = '☀️';
+}
+
+darkModeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  const isDarkMode = document.body.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode);
+  darkModeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+});
+
+// ===== SEARCH FUNCTIONALITY =====
+const searchToggle = document.getElementById('searchToggle');
+const searchContainer = document.getElementById('searchContainer');
+const searchBox = document.getElementById('searchBox');
+
+searchToggle.addEventListener('click', () => {
+  searchContainer.style.display = searchContainer.style.display === 'flex' ? 'none' : 'flex';
+  if (searchContainer.style.display === 'flex') {
+    searchBox.focus();
+  }
+});
+
+searchBox.addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase();
+  const boxes = document.querySelectorAll('.portfolio-box');
+  
+  boxes.forEach(box => {
+    const title = box.querySelector('h3').textContent.toLowerCase();
+    const desc = box.querySelector('p').textContent.toLowerCase();
+    const match = title.includes(query) || desc.includes(query);
+    box.style.display = match || query === '' ? 'block' : 'none';
+  });
+});
+
+// Close search when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.search-container') && !e.target.closest('.search-toggle')) {
+    searchContainer.style.display = 'none';
+  }
+});
+
+// ===== FAVORITES SYSTEM =====
+function toggleFavorite(e, projectName) {
+  e.stopPropagation();
+  const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  const index = favorites.indexOf(projectName);
+  
+  if (index > -1) {
+    favorites.splice(index, 1);
+  } else {
+    favorites.push(projectName);
+  }
+  
+  localStorage.setItem('favorites', JSON.stringify(favorites));
+  updateFavoriteButtons();
+}
+
+function updateFavoriteButtons() {
+  const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  document.querySelectorAll('.favorite-btn').forEach(btn => {
+    const projectName = btn.dataset.project;
+    if (favorites.includes(projectName)) {
+      btn.classList.add('liked');
+      btn.textContent = '❤️';
+    } else {
+      btn.classList.remove('liked');
+      btn.textContent = '🤍';
+    }
+  });
+}
+
+// ===== MODAL FUNCTIONS =====
+let currentProjectName = '';
+
+function openProject(title, desc, img1, img2, video, related){
+  currentProjectName = title;
+  document.getElementById("modalTitle").innerText = title;
+  document.getElementById("modalDescription").innerText = desc;
+  document.getElementById("sampleImg1").src = img1;
+  document.getElementById("sampleImg2").src = img2;
+
+  // Add project info
+  const projectInfo = projectDatabase[title] || {};
+  
+  // Add difficulty badge
+  const difficultyDiv = document.getElementById('modalDifficulty');
+  if (projectInfo.difficulty) {
+    const diffClass = 'difficulty-' + projectInfo.difficulty.toLowerCase();
+    difficultyDiv.innerHTML = `<span class="project-difficulty ${diffClass}">${projectInfo.difficulty} Project</span>`;
+  }
+
+  // Add skills
+  const skillsDiv = document.getElementById('projectSkills');
+  skillsDiv.innerHTML = '';
+  if (projectInfo.skills) {
+    projectInfo.skills.forEach(skill => {
+      const tag = document.createElement('span');
+      tag.className = 'skill-tag';
+      tag.textContent = skill;
+      skillsDiv.appendChild(tag);
+    });
+  }
+
+  // Video handling
+  const v = document.getElementById("sampleVideo");
+  if(video){
+    v.src = video;
+    v.style.display = "block";
+  } else {
+    v.style.display = "none";
+  }
+
+  // View live button
+  const viewLiveBtn = document.getElementById('viewLiveBtn');
+  if (projectInfo.liveLink && projectInfo.liveLink !== '') {
+    viewLiveBtn.style.display = 'inline-block';
+  } else {
+    viewLiveBtn.style.display = 'none';
+  }
+
+  // Related items
+  const list = document.getElementById("relatedItems");
+  list.innerHTML = "";
+  related.forEach(item=>{
+    const li = document.createElement("li");
+    li.textContent = item;
+    list.appendChild(li);
+  });
+
+  document.getElementById("projectModal").style.display = "flex";
+}
+
+function closeProject(){
+  document.getElementById("projectModal").style.display = "none";
+  document.getElementById("sampleVideo").pause();
+  closeShareModal();
+}
+
+// ===== SHARE FUNCTIONALITY =====
+function openShareModal() {
+  document.getElementById('shareModal').style.display = 'flex';
+}
+
+function closeShareModal() {
+  document.getElementById('shareModal').style.display = 'none';
+}
+
+function shareOn(platform) {
+  const projectName = currentProjectName;
+  const url = window.location.href;
+  const text = `Check out my "${projectName}" project!`;
+  
+  let shareUrl = '';
+  
+  switch(platform) {
+    case 'twitter':
+      shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+      break;
+    case 'linkedin':
+      shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+      break;
+    case 'facebook':
+      shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+      break;
+    case 'whatsapp':
+      shareUrl = `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`;
+      break;
+    case 'copy':
+      navigator.clipboard.writeText(url);
+      document.getElementById('copyFeedback').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('copyFeedback').style.display = 'none';
+      }, 2000);
+      return;
+  }
+  
+  if (shareUrl) window.open(shareUrl, '_blank');
+}
+
+function viewLiveProject() {
+  const projectInfo = projectDatabase[currentProjectName];
+  if (projectInfo && projectInfo.liveLink) {
+    window.open(projectInfo.liveLink, '_blank');
+  }
+}
+
+function getQuote() {
+  window.location.href = 'booking.html?project=' + encodeURIComponent(currentProjectName);
+}
+
+// ===== HAMBURGER MENU =====
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuClose = document.getElementById('menuClose');
+
+hamburger.addEventListener('click', () => {
+  mobileMenu.classList.add('active');
+  document.body.style.overflow = 'hidden';
+});
+
+menuClose.addEventListener('click', () => {
+  mobileMenu.classList.remove('active');
+  document.body.style.overflow = '';
+});
+
+mobileMenu.addEventListener('click', e => {
+  if (e.target === mobileMenu) {
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+});
+
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+});
+
+// ===== FILTER PORTFOLIO =====
+function filterPortfolio(category) {
+  const boxes = document.querySelectorAll('.portfolio-box');
+  const buttons = document.querySelectorAll('.filter-btn');
+
+  buttons.forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+
+  boxes.forEach(box => {
+    if (category === 'all' || box.dataset.category === category) {
+      box.style.display = 'block';
+      setTimeout(() => box.style.opacity = '1', 10);
+    } else {
+      box.style.opacity = '0';
+      setTimeout(() => box.style.display = 'none', 300);
+    }
+  });
+}
+
+// ===== SMOOTH SCROLL =====
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(anchor.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+});
+
+// ===== CLOSE MODALS ON ESCAPE =====
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeProject();
+    closeShareModal();
+  }
+});
+
+// ===== CLOSE MODAL ON OUTSIDE CLICK =====
+document.getElementById('projectModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('projectModal')) {
+    closeProject();
+  }
+});
+
+document.getElementById('shareModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('shareModal')) {
+    closeShareModal();
+  }
+});
+
+// ===== INITIALIZE =====
+updateFavoriteButtons();
+</script>
+
+<footer>
+  <div class="footer-social">
+    <a href="https://instagram.com" target="_blank" title="Instagram">📷</a>
+    <a href="https://behance.net" target="_blank" title="Behance">🎨</a>
+    <a href="https://linkedin.com" target="_blank" title="LinkedIn">💼</a>
+    <a href="https://twitter.com" target="_blank" title="Twitter">𝕏</a>
+  </div>
+  © 2026 SM Studio — Subramani<br />
+  <small>Photography • Video • Brand • Web • Made with vision & care</small>
+</footer>
+
+<!-- WhatsApp Button -->
+<a href="https://wa.me/919840108540?text=Hi%20Subramani%2C%20I'd%20like%20to%20know%20more%20about%20your%20services%21" target="_blank" class="whatsapp-btn" title="Chat on WhatsApp">
+  💬
+</a>
+
+<!-- Back to Top Button -->
+<button id="backToTop" title="Back to Top">↑</button>
+
+<script>
+// Back to Top Button
+const backToTopBtn = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+  if (window.pageYOffset > 300) {
+    backToTopBtn.classList.add('show');
+  } else {
+    backToTopBtn.classList.remove('show');
+  }
+});
+
+backToTopBtn.addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+</script>
+
+</body>
+</html>
